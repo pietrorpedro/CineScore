@@ -1,0 +1,45 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+    margin: 20px auto;
+    max-width: 768px;
+    width: 100%;
+
+    text-align: center;
+}
+
+.cardContent,
+.cardImage {
+    width: 100%;
+}
+
+.cardContent {
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.cardImage img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+@media (min-width: 768px) {
+    .card {
+        flex-direction: row;
+        justify-content: space-between;
+        max-width: 1000px;
+        gap: 20px;
+
+        text-align: start;
+    }
+
+    .cardContent {
+        max-width: 400px;
+    }
+}

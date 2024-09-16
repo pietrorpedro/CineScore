@@ -1,0 +1,27 @@
+.movieList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    margin: 40px 0;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .list {
+        flex-direction: row;
+    }
+
+    .horizontalCard:nth-of-type(3) div{
+        flex-direction: row-reverse;
+    }
+}
+
