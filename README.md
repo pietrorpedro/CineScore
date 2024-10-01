@@ -1,3 +1,5 @@
+https://pietrorpedro.github.io/CineScore/
+
 # Definição de Projeto
 
 A aplicação selecionada para desenvolvimento consiste em uma plataforma dedicada à análise e avaliação de filmes, permitindo que os usuários busquem filmes de seu interesse, acessem detalhes e expressem suas opiniões por meio de críticas escritas e atribuição de notas. Suas funcionalidades principais incluem um sistema de busca que filtra filmes por título e a exibição de detalhes como sinopse, elenco e data de lançamento. Os usuários poderão registrar suas críticas e notas, contribuindo para a construção de uma base de dados diversificada de avaliações.
