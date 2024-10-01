@@ -9,7 +9,7 @@ const Header = () => {
             <div className={styles.headerMenu}>
                 <ul>
                     <li className={styles.headerMenuLink}><Link to={"/"}>Início</Link></li>
-                    <li className={styles.headerMenuLink}><Link to={"/"}>Buscar Filmes</Link></li>
+                    <li className={styles.headerMenuLink}><Link to={"/search"}>Buscar Filmes</Link></li>
                     <li className={styles.headerMenuLink}><Link to={"/"}>Críticas</Link></li>
                     <li className={styles.headerMenuLink}><Link to={"/"}>Perfil</Link></li>
                     <li className={styles.headerMenuLink}><Link to={"/"}>Login</Link></li>

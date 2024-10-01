@@ -6,7 +6,7 @@ const Layout = () => {
     return (
         <>
             <Header/>
-            <main>
+            <main style={{padding:"10px"}}>
                 <Outlet/>
             </main>
             <Footer/>
