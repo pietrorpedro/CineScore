@@ -1,11 +1,13 @@
 import axios from "axios";
 
+const apiAuth = import.meta.env.VITE_API_KEY;
+
 export async function fetchMovieGenres() {
-    const url = 'https://api.themoviedb.org/3/genre/movie/list';
+    const url = 'https://api.themoviedb.org/3/genre/movie/list?language=pt-br';
     const options = {
         headers: {
             accept: 'application/json',
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3NmYwN2Q5MGIwZGU2ZDNmNWFkOGQ3YzM2MjEzYjAwZSIsIm5iZiI6MTcyNzM3MjUwOC4xMDE3MzIsInN1YiI6IjY2YTgyNjFjNDg3ODVkNDYzNGUwYTE3MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.BUSgsCrwX8hxesRRLlgdcshpF-_rF1JYCiBsahEzqzw`
+            Authorization: `Bearer ${apiAuth}`
         }
     };
 
@@ -23,7 +25,7 @@ export async function fetchPopularMovies() {
     const options = {
         headers: {
             accept: 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3NmYwN2Q5MGIwZGU2ZDNmNWFkOGQ3YzM2MjEzYjAwZSIsIm5iZiI6MTcyNzM3MjUwOC4xMDE3MzIsInN1YiI6IjY2YTgyNjFjNDg3ODVkNDYzNGUwYTE3MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.BUSgsCrwX8hxesRRLlgdcshpF-_rF1JYCiBsahEzqzw'
+            Authorization: `Bearer ${apiAuth}`
         }
     };
 
@@ -37,11 +39,11 @@ export async function fetchPopularMovies() {
 }
 
 export async function fetchMoviesByGenre(genreId) {
-    const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${genreId}`;
+    const url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=pt-br&page=1&sort_by=popularity.desc&with_genres=${genreId}`;
     const options = {
         headers: {
             accept: 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3NmYwN2Q5MGIwZGU2ZDNmNWFkOGQ3YzM2MjEzYjAwZSIsIm5iZiI6MTcyNzM3MjUwOC4xMDE3MzIsInN1YiI6IjY2YTgyNjFjNDg3ODVkNDYzNGUwYTE3MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.BUSgsCrwX8hxesRRLlgdcshpF-_rF1JYCiBsahEzqzw'
+            Authorization: `Bearer ${apiAuth}`
         }
     };
 
@@ -54,12 +56,30 @@ export async function fetchMoviesByGenre(genreId) {
     }
 }
 
+export async function fetchMovieDetails(movieId) {
+    const url = `https://api.themoviedb.org/3/movie/${movieId}?language=pt-br`;
+    const options = {
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${apiAuth}`
+        }
+    };
+
+    try {
+        const response = await axios.get(url, options);
+        return response.data;
+    } catch (err) {
+        console.error('Error:', err);
+        throw err;
+    }
+}
+
 export async function fetchMoviesByTitle(title) {
     const url = `https://api.themoviedb.org/3/search/movie?query=${title}`;
     const options = {
         headers: {
             accept: 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3NmYwN2Q5MGIwZGU2ZDNmNWFkOGQ3YzM2MjEzYjAwZSIsIm5iZiI6MTcyNzM3MjUwOC4xMDE3MzIsInN1YiI6IjY2YTgyNjFjNDg3ODVkNDYzNGUwYTE3MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.BUSgsCrwX8hxesRRLlgdcshpF-_rF1JYCiBsahEzqzw'
+            Authorization: `Bearer ${apiAuth}`
         }
     };
 

@@ -5,6 +5,8 @@
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
+
+    margin-top: 50px;
 }
 
 .footerMenu ul {

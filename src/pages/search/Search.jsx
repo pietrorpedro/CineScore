@@ -1,8 +1,8 @@
-import styles from "./Search.module.css";
-
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import { fetchMovieGenres, fetchMoviesByGenre, fetchMoviesByTitle } from "../../services/apiCalls";
+import styles from "./Search.module.css";
 
 export default function Search() {
     const [genres, setGenres] = useState([]);
@@ -53,7 +53,6 @@ export default function Search() {
                         value={searchInput}
                     />
                 </div>
-
                 <Button text={"Procurar"} type={"submit"} />
             </form>
 
@@ -64,7 +63,7 @@ export default function Search() {
                         {genres.map((genre, index) => (
                             <Button
                                 key={index}
-                                text={genre.name}
+                                text={`${genre.name}`}
                                 onClick={() => handleSearchByGenre(genre.id)}
                             />
                         ))}
@@ -76,14 +75,16 @@ export default function Search() {
                 <div className={styles.movies}>
                     {movies.map((movie) => (
                         <div key={movie.id} className={styles.movie}>
-                            {movie.poster_path && (
-                                <img
-                                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                                    alt={movie.title}
-                                    className={styles.poster}
-                                />
-                            )}
-                            <h2>{movie.title}</h2>
+                            <Link to={`/details/${movie.id}`}>
+                                {movie.poster_path && (
+                                    <img
+                                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                                        alt={movie.title}
+                                        className={styles.poster}
+                                    />
+                                )}
+                                <h2>{movie.title}</h2>
+                            </Link>
                         </div>
                     ))}
                 </div>

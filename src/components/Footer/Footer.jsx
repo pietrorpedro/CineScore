@@ -12,7 +12,6 @@ const Footer = () => {
                     <li className={styles.footerMenuLink}><Link to={"/"}>Buscar Filmes</Link></li>
                     <li className={styles.footerMenuLink}><Link to={"/"}>Críticas</Link></li>
                     <li className={styles.footerMenuLink}><Link to={"/"}>Perfil</Link></li>
-                    <li className={styles.footerMenuLink}><Link to={"/"}>Login</Link></li>
                 </ul>
             </div>
         </div>
