@@ -1,0 +1,14 @@
+.profile {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+@media (min-width: 768px) {
+    .profile button {
+        width: 100px;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+}
