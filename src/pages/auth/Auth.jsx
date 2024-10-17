@@ -20,16 +20,9 @@ export default function Auth() {
         setLoading(true);
         try {
             if (isRegister) {
-                const userCredential = await register(email, password);
-                const user = userCredential.user;
-
-                // Salva dados do usuário no Firestore
-                await setDoc(doc(db, "users", user.uid), {
-                    username: username,
-                    email: email
-                });
+                const userCredential = await register(email, password, username);
             } else {
-                const userCredential = await login(email, password);
+                await login(email, password);
             }
             navigate("/profile");
         } catch (error) {
@@ -63,7 +56,7 @@ export default function Auth() {
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email"
                         required
-                />
+                    />
                 </label>
                 <label>
                     Senha

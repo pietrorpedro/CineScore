@@ -20,6 +20,7 @@ export async function fetchMovieGenres() {
     }
 }
 
+// TODO: Colocar na main depois
 export async function fetchPopularMovies() {
     const url = 'https://api.themoviedb.org/3/movie/popular';
     const options = {
@@ -101,4 +102,9 @@ export async function fetchMoviesByTitle(title) {
         console.error('Error:', err);
         throw err;
     }
+}
+
+export async function fetchMovieTitle(movieId) {
+    const movieDetails = await fetchMovieDetails(movieId);
+    return movieDetails.title;
 }

@@ -3,16 +3,20 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import { useEffect, useState } from "react";
 import { db } from "../../firebase.js";
 import Button from "../../components/Button/Button.jsx";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import Review from "../../components/Review/Review.jsx";
+import { fetchMovieTitle } from "../../services/apiCalls.js";
 
 export default function Profile() {
     const { user, logout } = useAuth();
     const [userInfo, setUserInfo] = useState(null);
     const [userId, setUserId] = useState(null);
+    const [userReviews, setUserReviews] = useState([]);
+    const [movies, setMovies] = useState({});
 
     useEffect(() => {
         if (user) {
-            setUserId(user.uid); // Armazenar o ID do usuário
+            setUserId(user.uid);
         }
     }, [user]);
 
@@ -25,13 +29,45 @@ export default function Profile() {
                 if (docSnap.exists()) {
                     setUserInfo(docSnap.data());
                 } else {
-                    console.log("No such document!");
+                    console.log("Erro ao encontrar o usuario");
                 }
             }
         };
 
         fetchUserInfo();
-    }, [userId]); // Executar apenas quando o ID do usuário mudar
+    }, [userId]);
+
+    useEffect(() => {
+        async function fetchReviews() {
+            if (userId) {
+                const reviewQuery = query(collection(db, "reviews"), where("userId", "==", userId));
+                const querySnapshot = await getDocs(reviewQuery);
+                const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setUserReviews(data);
+            }
+        }
+
+        fetchReviews();
+    }, [userId]);
+
+    useEffect(() => {
+        const fetchMovieTitles = async () => {
+            const titles = {};
+            for (const review of userReviews) {
+                try {
+                    const title = await fetchMovieTitle(review.movieId);
+                    titles[review.movieId] = title;
+                } catch (error) {
+                    console.error(`Erro ao buscar título para o filme ID ${review.movieId}:`, error);
+                }
+            }
+            setMovies(titles);
+        };
+
+        if (userReviews.length > 0) {
+            fetchMovieTitles();
+        }
+    }, [userReviews]);
 
     async function handleLogout() {
         try {
@@ -53,6 +89,24 @@ export default function Profile() {
                 <p>Carregando informações do usuário...</p>
             )}
             <Button text="Sair" onClick={handleLogout} />
+
+            <div className={styles.reviews}>
+                <h2>Minhas Críticas</h2>
+                {userReviews.length > 0 ? (
+                    userReviews.map(review => (
+                        <Review
+                            key={review.id}
+                            movie={movies[review.movieId]}
+                            text={review.review}
+                            author={review.username}
+                            note={review.rating}
+                            date={new Date(review.timestamp.seconds * 1000).toLocaleDateString()}
+                        />
+                    ))
+                ) : (
+                    <p>Você ainda não fez nenhuma crítica.</p>
+                )}
+            </div>
         </div>
     );
 }

@@ -5,6 +5,9 @@
     margin: 10px 0;
 }
 
+.reviews ul {
+    padding: 0;
+}
 .author {
     display: flex;
     justify-content: space-between;
