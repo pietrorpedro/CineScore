@@ -10,7 +10,6 @@ const Header = () => {
                 <ul>
                     <li className={styles.headerMenuLink}><Link to={"/"}>Início</Link></li>
                     <li className={styles.headerMenuLink}><Link to={"/search"}>Buscar Filmes</Link></li>
-                    <li className={styles.headerMenuLink}><Link to={"/"}>Críticas</Link></li>
                     <li className={styles.headerMenuLink}><Link to={"/profile"}>Perfil</Link></li>
                 </ul>
             </div>
