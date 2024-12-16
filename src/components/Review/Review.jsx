@@ -1,6 +1,16 @@
 import styles from "./Review.module.css";
 
 export default function Review({author, date, text, note, movie}) {
+
+    // const [formattedDate, setFormattedDate] = useState(null);
+
+    // useEffect(() => {
+    //     const objDate = new Date(date * 1000)
+    //     const formatted = objDate.toLocaleDateString("pt-BR")
+
+    //     setFormattedDate(formatted)
+    // }, [])
+
     return (
         <div className={styles.review}>
             <div className={styles.author}>

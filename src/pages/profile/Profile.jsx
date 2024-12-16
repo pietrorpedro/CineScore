@@ -1,11 +1,11 @@
-import styles from "./Profile.module.css";
-import { useAuth } from "../../context/AuthContext.jsx";
-import { useEffect, useState } from "react";
-import { db } from "../../firebase.js";
-import Button from "../../components/Button/Button.jsx";
 import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import Button from "../../components/Button/Button.jsx";
 import Review from "../../components/Review/Review.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
+import { db } from "../../firebase.js";
 import { fetchMovieTitle } from "../../services/apiCalls.js";
+import styles from "./Profile.module.css";
 
 export default function Profile() {
     const { user, logout } = useAuth();
@@ -100,7 +100,7 @@ export default function Profile() {
                             text={review.review}
                             author={review.username}
                             note={review.rating}
-                            date={new Date(review.timestamp.seconds * 1000).toLocaleDateString()}
+                            date={review.createdAt.seconds}
                         />
                     ))
                 ) : (

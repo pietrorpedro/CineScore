@@ -1,21 +1,21 @@
+import { addDoc, collection, getDocs, query, serverTimestamp, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Review from "../../components/Review/Review";
-import { fetchMovieDetails } from "../../services/apiCalls";
+import { useAuth } from "../../context/AuthContext.jsx";
 import { db } from "../../firebase.js";
-import { collection, addDoc, query, where, getDocs, serverTimestamp } from "firebase/firestore";
+import { fetchMovieDetails } from "../../services/apiCalls";
 import styles from "./Details.module.css";
-import {useAuth} from "../../context/AuthContext.jsx";
 
 export default function Details() {
-    const {user} = useAuth();
+    const { user } = useAuth();
     const { id } = useParams();
     const [movieDetails, setMovieDetails] = useState(null);
     const [reviews, setReviews] = useState([]);
     const [input, setInput] = useState("");
     const [rating, setRating] = useState(0);
-
+    
     useEffect(() => {
         const load = async () => {
             try {
@@ -35,7 +35,7 @@ export default function Details() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        if (input || rating !== 0) {
+        if (input && rating !== 0 && rating <= 5) {
             try {
                 await addDoc(collection(db, "reviews"), {
                     movieId: id,
@@ -43,12 +43,13 @@ export default function Details() {
                     username: user.username,
                     review: input,
                     rating: rating,
-                    timestamp: serverTimestamp()
+                    createdAt: serverTimestamp()
                 });
 
                 setInput("");
                 setRating(0);
                 await loadReviews();
+                alert("enviada")
             } catch (error) {
                 console.log("Erro ao enviar a crítica: ", error);
             }
@@ -108,23 +109,24 @@ export default function Details() {
                                     max="10"
                                     min="0"
                                 />
-                                <Button type={"submit"} text={"Publicar"}/>
+                                <Button type={"submit"} text={"Publicar"} />
                             </form>
 
-                                {reviews.length > 0 ? (
-                                    reviews.map((review) => (
-                                        <Review
-                                            key={review.id}
-                                            text={review.review}
-                                            author={review.username}
-                                            note={review.rating}
-                                            date={new Date(review.timestamp.seconds * 1000).toLocaleDateString()}
-                                        />
-                                    ))
-                                ) : (
-                                    <h2 className={styles.center}>Ninguém postou nenhuma crítica ainda, seja o
-                                        primeiro!</h2>
-                                )}
+                            {reviews.length > 0 ? (
+                                reviews.map((review) => (
+                                    <Review
+                                        key={review.id}
+                                        text={review.review}
+                                        author={review.username}
+                                        note={review.rating}
+                                        date={review.createdAt?.seconds ? new Date(review.createdAt.seconds * 1000).toLocaleDateString("pt-BR") : "Data inválida"}
+                                    />
+
+                                ))
+                            ) : (
+                                <h2 className={styles.center}>Ninguém postou nenhuma crítica ainda, seja o
+                                    primeiro!</h2>
+                            )}
                         </div>
                     </div>
                 </div>
